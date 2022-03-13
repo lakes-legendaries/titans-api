@@ -11,8 +11,8 @@ RUN rm requirements.txt
 ENV PYTHONPATH .
 
 # setup azure cli
-curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-env AZURE_STORAGE_CONNECTION_STRING $AZURE_STORAGE_CONNECTION_STRING
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+ENV AZURE_STORAGE_CONNECTION_STRING $AZURE_STORAGE_CONNECTION_STRING
 
 # setup app
 COPY titansapi/ titansapi/
