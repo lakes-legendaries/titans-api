@@ -27,6 +27,9 @@ echo "
 # exit on error
 set -e
 
+# remove unused docker images and containers
+sudo docker system prune --force --all
+
 # clone repo
 rm -rfd titans-api
 git clone https://github.com/lakes-legendaries/titans-api.git
