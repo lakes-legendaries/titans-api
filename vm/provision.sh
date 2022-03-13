@@ -47,6 +47,8 @@ rm -rfd titans-api
 " > $STARTUP
 chmod +x $STARTUP
 
-# set startup command to run on reboot
-echo "@reboot $STARTUP" | \
-    sudo tee /var/spool/cron/crontabs/root &> /dev/null
+# set startup command to run on reboot, and set monthly reboot
+echo "
+@reboot $STARTUP
+0 0 1 * * reboot
+" | sudo tee /var/spool/cron/crontabs/root &> /dev/null
