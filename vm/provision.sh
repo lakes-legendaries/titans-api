@@ -48,5 +48,5 @@ rm -rfd titans-api
 chmod +x $STARTUP
 
 # set startup command to run on reboot
-echo "@reboot ~/run-app.sh" | \
+echo "@reboot $STARTUP" | \
     sudo tee /var/spool/cron/crontabs/root &> /dev/null
