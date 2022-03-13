@@ -10,7 +10,7 @@ sudo apt-get install -y ca-certificates curl git gnupg lsb-release
 # access docker repository
 KEYFILE=/usr/share/keyrings/docker-archive-keyring.gpg
 sudo rm -f $KEYFILE
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg -y --dearmor -o $KEYFILE
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o $KEYFILE
 echo "deb [arch=$(dpkg --print-architecture) signed-by=$KEYFILE] \
     https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
     | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
