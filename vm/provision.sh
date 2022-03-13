@@ -35,10 +35,7 @@ rm -rfd titans-api
 git clone https://github.com/lakes-legendaries/titans-api.git
 
 # inject secrets into Dockerfile
-cat ~/titans-fileserver
-echo $(cat ~/titans-fileserver)
-SECRET=$(echo $(cat ~/titans-fileserver) | sed -E 's/([^a-zA-Z0-9])/\\\1/g')
-echo $SECRET
+SECRET=$(echo "$(cat ~/titans-fileserver)" | sed -E 's/([^a-zA-Z0-9])/\\\1/g')
 sed -i 's/\$AZURE_STORAGE_CONNECTION_STRING/'"$SECRET"'/g' \
     titans-api/Dockerfile
 
