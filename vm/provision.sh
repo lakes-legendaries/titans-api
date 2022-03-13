@@ -34,6 +34,11 @@ sudo docker system prune --force --all
 rm -rfd titans-api
 git clone https://github.com/lakes-legendaries/titans-api.git
 
+# inject secrets into Dockerfile
+SECRET=$(echo $(cat titans-fileserver) | sed -E 's/(.)/\\\1/g')
+sed -i 's/\$AZURE_STORAGE_CONNECTION_STRING/'"$SECRET"'/g' \
+    titans-api/Dockerfile
+
 # build docker image
 cd titans-api
 sudo docker build -t titans-api .
@@ -52,3 +57,6 @@ echo "
 @reboot $STARTUP
 0 0 1 * * reboot
 " | sudo tee /var/spool/cron/crontabs/root &> /dev/null
+
+# run startup script
+$STARTUP
