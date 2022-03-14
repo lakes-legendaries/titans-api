@@ -3,7 +3,7 @@ from subprocess import run
 
 from fastapi import FastAPI
 
-from titansapi.__version__ import __version__
+from titansapi import __version__
 
 
 # create app
