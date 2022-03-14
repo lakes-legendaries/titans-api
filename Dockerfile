@@ -23,7 +23,12 @@ RUN rm -rfd azcopy.tar azcopy
 
 # setup app
 COPY titansapi/ titansapi/
-CMD ["uvicorn", "titansapi.app:app", "--host", "0.0.0.0", "--port", "80"]
+CMD [ \
+    "uvicorn", "titansapi.app:app", "--host", "0.0.0.0", "--port", "443", \
+    "--ssl-keyfile=./privkey.pem", "--ssl-certfile=./fullchain.pem" \
+]
 
 # copy secrets
 COPY titans-fileserver .
+COPY fullchain.pem .
+COPY privkey.pem .
