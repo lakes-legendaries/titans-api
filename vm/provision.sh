@@ -43,6 +43,7 @@ CONTAINERS=\$(sudo docker ps -aq)
 if [ ! -z \"\$CONTAINERS\" ]; then
     sudo docker rm --force \$CONTAINERS
 fi
+sudo docker system prune --force --all
 
 # clone repo
 rm -rfd titans-api
