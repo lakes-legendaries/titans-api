@@ -1,5 +1,7 @@
+from datetime import datetime
 from os import remove
 from subprocess import run
+from typing import Optional
 from urllib.parse import quote_plus
 
 from fastapi import FastAPI
@@ -43,3 +45,22 @@ def subscribe(email: str):
     run(cmd.split())
     remove(email)
     return f'Uploaded {email}'
+
+
+@app.get('/comments/{comments}')
+def comment(
+    comments: str,
+    email: Optional[str] = None,
+):
+    fname = datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
+    print(comments, file=open(fname, 'w'))
+    if email:
+        print(f'Email: {email}', file=open(fname, 'a'))
+    cmd = (
+        f'azcopy cp {fname} '
+        'https://titansfileserver.blob.core.windows.net/comments/'
+        f'{fname}{key}'
+    )
+    run(cmd.split())
+    remove(fname)
+    return f'Uploaded {fname}'
