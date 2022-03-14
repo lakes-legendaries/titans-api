@@ -38,11 +38,8 @@ sudo docker system prune --force --all
 rm -rfd titans-api
 git clone https://github.com/lakes-legendaries/titans-api.git
 
-# inject secrets into Dockerfile
-AZURE_KEY=$(echo $(cat ~/titans-fileserver) | sed -E 's/([^[a-zA-Z0-9])/\\\1/g')
-sed -i \"s/\\\$AZURE_KEY/\$AZURE_KEY/g\" titans-api/Dockerfile
-
-cat titans-api/Dockerfile
+# copy secrets into docker context
+cp titans-fileserver titans-api/titans-fileserver
 
 # build docker image
 cd titans-api
