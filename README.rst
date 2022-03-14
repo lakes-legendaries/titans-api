@@ -17,6 +17,7 @@ This script:
 
 #. Installs the necessary packages
 #. Creates a startup script that:
+
    #. Frees up memory
    #. Clones this repo
    #. Builds this repo's Docker image
