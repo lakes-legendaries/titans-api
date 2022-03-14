@@ -16,7 +16,10 @@ app.add_middleware(
     CORSMiddleware,
     allow_headers=["*"],
     allow_methods=["*"],
-    allow_origins=["*"],
+    allow_origins=[
+        'http://titansfileserverdev.z13.web.core.windows.net/',
+        'https://titansfileserverdev.z13.web.core.windows.net/'
+    ],
 )
 
 # read in azure connection key
