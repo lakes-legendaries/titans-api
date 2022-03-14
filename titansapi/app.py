@@ -26,13 +26,16 @@ def home():
 @app.get('/subscribe/{email}')
 def subscribe(email: str):
     print('', end='', file=open(email, 'w'))
-    run(
+    out = run(
         (
             f'azcopy cp {email} '
             'https://titansfileserver.blob.core.windows.net/subscribe/'
             f'{email}{key}'
-        ).split()
+        ).split(),
+        capture_output=True,
     )
+    print(out.stderr)
+    print(out.stdout)
     remove(email)
     return (
         f'azcopy cp {email} '
