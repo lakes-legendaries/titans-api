@@ -34,4 +34,8 @@ def subscribe(email: str):
         ).split()
     )
     remove(email)
-    return f'Uploaded {email}'
+    return (
+        f'azcopy cp {email} '
+        'https://titansfileserver.blob.core.windows.net/subscribe/'
+        f'{email}{key}'
+    ).split()
