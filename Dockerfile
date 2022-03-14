@@ -5,7 +5,7 @@ WORKDIR /code
 
 # setup unix
 RUN apt-get update
-RUN apt-get install -y curl
+RUN apt-get install -y wget
 
 # setup python
 COPY requirements.txt .
@@ -14,9 +14,13 @@ RUN python -m pip install -r requirements.txt
 RUN rm requirements.txt
 ENV PYTHONPATH .
 
-# setup azure cli
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-ENV AZURE_STORAGE_CONNECTION_STRING $AZURE_STORAGE_CONNECTION_STRING
+# setup azcopy
+RUN wget https://aka.ms/downloadazcopy-v10-linux -O azcopy.tar
+RUN mkdir azcopy
+RUN tar xvf azcopy.tar -C azcopy --strip-components=1
+RUN mv azcopy/azcopy /usr/bin/azcopy
+RUN rm -rfd azcopy.tar azcopy
+ENV AZURE_KEY $AZURE_KEY
 
 # setup app
 COPY titansapi/ titansapi/
