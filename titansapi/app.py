@@ -1,4 +1,3 @@
-import os
 from os import remove
 from subprocess import run
 from urllib.parse import quote_plus
@@ -11,8 +10,8 @@ from titansapi import __version__
 # create app
 app = FastAPI()
 
-# read in connection key
-key = os.environ['AZURE_KEY']
+# read in azure connection key
+key = open('titans-fileserver', 'r').read().strip()
 
 
 # root prompt
