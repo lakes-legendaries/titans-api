@@ -34,11 +34,13 @@ def subscribe(email: str):
         ).split(),
         capture_output=True,
     )
-    print(out.stderr)
-    print(out.stdout)
     remove(email)
     return (
-        f'azcopy cp {email} '
-        'https://titansfileserver.blob.core.windows.net/subscribe/'
-        f'{email}{key}'
-    ).split()
+        (
+            f'azcopy cp {email} '
+            'https://titansfileserver.blob.core.windows.net/subscribe/'
+            f'{email}{key}'
+        ).split(),
+        out.stdout,
+        out.stderr,
+    )
