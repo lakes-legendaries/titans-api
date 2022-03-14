@@ -3,12 +3,21 @@ from subprocess import run
 from urllib.parse import quote_plus
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from titansapi import __version__
 
 
 # create app
 app = FastAPI()
+
+# allow cors access
+app.add_middleware(
+    CORSMiddleware,
+    allow_headers=["*"],
+    allow_methods=["*"],
+    allow_origins=["*"],
+)
 
 # read in azure connection key
 key = open('titans-fileserver', 'r').read().strip()
@@ -26,12 +35,11 @@ def home():
 @app.get('/subscribe/{email}')
 def subscribe(email: str):
     print('', end='', file=open(email, 'w'))
-    run(
-        (
-            f'azcopy cp {email} '
-            'https://titansfileserver.blob.core.windows.net/subscribe/'
-            f'{email}{key}'
-        ).split()
+    cmd = (
+        f'azcopy cp {email} '
+        'https://titansfileserver.blob.core.windows.net/subscribe/'
+        f'{email}{key}'
     )
+    run(cmd.split())
     remove(email)
     return f'Uploaded {email}'
