@@ -26,5 +26,6 @@ ENV SECRETS_DIR /secrets
 COPY titansapi/ titansapi/
 CMD [ \
     "uvicorn", "titansapi.app:app", "--host", "0.0.0.0", "--port", "443", \
-    "--ssl-keyfile=./privkey.pem", "--ssl-certfile=./fullchain.pem" \
+    "--ssl-keyfile=$SECRETS_DIR/privkey.pem", \
+    "--ssl-certfile=$SECRETS_DIR/fullchain.pem" \
 ]
