@@ -1,5 +1,7 @@
 from datetime import datetime
+import os
 from os import remove
+from os.path import join
 from subprocess import run
 from typing import Optional
 from urllib.parse import quote_plus
@@ -22,12 +24,13 @@ app.add_middleware(
 )
 
 # read in azure connection key
-key = open('titans-fileserver', 'r').read().strip()
+secrets_dir = os.environ['SECRETS_DIR']
+key = open(join(secrets_dir, 'titans-fileserver'), 'r').read().strip()
 
 
-# root prompt
 @app.get('/')
 def home():
+    """Root prompt"""
     return {
         'service': 'titans-api',
         'version': __version__,
@@ -36,14 +39,23 @@ def home():
 
 @app.get('/subscribe/{email}')
 def subscribe(email: str):
+    """Subscribe form submission"""
+
+    # create file as subscription email
     print('', end='', file=open(email, 'w'))
+
+    # upload to azure
     cmd = (
         f'azcopy cp {email} '
         'https://titansfileserver.blob.core.windows.net/subscribe/'
         f'{email}{key}'
     )
     run(cmd.split())
+
+    # clean up
     remove(email)
+
+    # return status
     return f'Uploaded {email}'
 
 
@@ -52,15 +64,34 @@ def comment(
     comments: str,
     email: Optional[str] = None,
 ):
-    fname = datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
-    print(comments, file=open(fname, 'w'))
+    """Comments form submission"""
+
+    # create email content
+    content = comments
     if email:
-        print(f'Email: {email}', file=open(fname, 'a'))
-    cmd = (
-        f'azcopy cp {fname} '
-        'https://titansfileserver.blob.core.windows.net/comments/'
-        f'{fname}{key}'
-    )
-    run(cmd.split())
-    remove(fname)
-    return f'Uploaded {fname}'
+        content += f'\n\nRespond to: {email}'
+
+    # create email json
+    email = {
+        'message': {
+            'subject': 'New Question / Comment',
+            'body': {
+                'contentType': 'Text',
+                'content': content,
+            },
+            'toRecipients': [
+                {
+                    'emailAddress': {
+                        'address': 'mike@lakeslegendaries.com',
+                    },
+                },
+            ],
+        },
+        'saveToSentItems': False,
+    }
+
+    # send email
+    run(['email/send.sh', email])
+
+    # return status
+    return f'Comments emailed'

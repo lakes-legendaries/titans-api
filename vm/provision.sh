@@ -49,13 +49,12 @@ sudo docker system prune --force --all
 rm -rfd titans-api
 git clone https://github.com/lakes-legendaries/titans-api.git
 
-# copy secrets into docker context
+# copy certs into secrets
 for FILE in \
-    titans-fileserver \
     /etc/letsencrypt/live/titansapi.eastus.cloudapp.azure.com/fullchain.pem \
     /etc/letsencrypt/live/titansapi.eastus.cloudapp.azure.com/privkey.pem \
 ; do
-    sudo cp \$FILE titans-api/
+    sudo cp \$FILE ~/secrets/
 done
 
 # build docker image
@@ -64,7 +63,7 @@ sudo docker build -t titans-api .
 cd ..
 
 # run docker container
-sudo docker run -dp 443:443 titans-api
+sudo docker run -dp 443:443 -v \$HOME/secrets:/secrets titans-api
 
 # clean up
 rm -rfd titans-api
