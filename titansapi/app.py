@@ -91,7 +91,7 @@ def comment(
     }
 
     # send email
-    run(['email/send.sh', email])
+    # run(['email/send.sh', email])
 
     # return status
     return f'Comments emailed'
