@@ -23,9 +23,9 @@ RUN rm -rfd azcopy.tar azcopy
 
 # setup app
 ENV SECRETS_DIR /secrets
-COPY titansapi/ titansapi/
+COPY titansapi/ .
 CMD [ \
-    "uvicorn", "titansapi.app:app", "--host", "0.0.0.0", "--port", "443", \
+    "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "443", \
     "--ssl-keyfile=/secrets/privkey.pem", \
     "--ssl-certfile=/secrets/fullchain.pem" \
 ]
