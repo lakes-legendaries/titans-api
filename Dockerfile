@@ -5,7 +5,7 @@ WORKDIR /code
 
 # setup unix
 RUN apt-get update
-RUN apt-get install -y wget
+RUN apt-get install -y curl wget
 
 # setup python
 COPY requirements.txt .
@@ -23,8 +23,8 @@ RUN rm -rfd azcopy.tar azcopy
 
 # setup app
 ENV SECRETS_DIR /secrets
-COPY titansapi/ titansapi/
 COPY email email/
+COPY titansapi/ titansapi/
 CMD [ \
     "uvicorn", "titansapi.app:app", "--host", "0.0.0.0", "--port", "443", \
     "--ssl-keyfile=/secrets/privkey.pem", \
