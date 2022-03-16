@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# error on failure
-set -e
-
 # setup unix
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl git gnupg lsb-release
