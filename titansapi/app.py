@@ -101,4 +101,4 @@ def comment(
         pass
 
     # return status
-    return rez.stdout, rez.stderr
+    return 'Comments emailed.'
