@@ -4,6 +4,7 @@
 set -e
 
 # check env vars
+SECRETS_DIR=/secrets
 if [ -z "$SECRETS_DIR" ]; then
     echo "ERROR: No SECRETS_DIR env var set"
     exit 1
