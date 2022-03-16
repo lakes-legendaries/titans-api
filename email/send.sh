@@ -30,7 +30,7 @@ get_field() {
 # download email token (to make sure we're up-to-date)
 SECRETS_URL=https://titansfileserver.blob.core.windows.net/webserver/secrets
 SECRETS_FILE=titans-email-token
-SECRETS_SAS=$(cat ~/secrets/titans-fileserver-sas)
+SECRETS_SAS=$(cat $SECRETS_DIR/titans-fileserver-sas)
 SECRETS_LOCAL=$SECRETS_DIR/$SECRETS_FILE
 azcopy cp "$SECRETS_URL/$SECRETS_FILE$SECRETS_SAS" "$SECRETS_LOCAL"
 
