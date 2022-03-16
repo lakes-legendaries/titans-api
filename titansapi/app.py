@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 import os
 from os import remove
 from os.path import join
@@ -72,7 +73,7 @@ def comment(
         content += f'\n\nRespond to: {email}'
 
     # create email json
-    email = {
+    email = json.dumps({
         'message': {
             'subject': 'New Question / Comment',
             'body': {
@@ -88,17 +89,14 @@ def comment(
             ],
         },
         'saveToSentItems': False,
-    }
+    })
 
     # send email
-    try:
-        rez = run(
-            ['/code/email/send.sh', email],
-            capture_output=True,
-            text=True,
-        )
-    except Exception:
-        pass
+    run(
+        ['/code/email/send.sh', email],
+        capture_output=True,
+        text=True,
+    )
 
     # return status
     return 'Comments emailed.'
