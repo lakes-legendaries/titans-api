@@ -4,7 +4,6 @@
 set -e
 
 # check env vars
-SECRETS_DIR=/secrets
 if [ -z "$SECRETS_DIR" ]; then
     echo "ERROR: No SECRETS_DIR env var set"
     exit 1
@@ -28,7 +27,14 @@ get_field() {
     python -c "$CMD"
 }
 
-# load secrets
+# download email token (to make sure we're up-to-date)
+SECRETS_URL=https://titansfileserver.blob.core.windows.net/webserver/secrets
+SECRETS_FILE=titans-email-token
+SECRETS_SAS=$(cat ~/secrets/titans-fileserver-sas)
+SECRETS_LOCAL=$SECRETS_DIR/$SECRETS_FILE
+azcopy cp "$SECRETS_URL/$SECRETS_FILE$SECRETS_SAS" "$SECRETS_LOCAL"
+
+# load email credentials
 . $SECRETS_DIR/titans-email-creds
 
 # create curl data body
@@ -40,10 +46,13 @@ DATA=$(echo \
     "&grant_type=refresh_token" \
 )
 
-# curl for new token
+# refresh email token
 curl -sH "Content-Type: application/x-www-form-urlencoded" \
     -d "$DATA" https://login.microsoftonline.com/$TENANT/oauth2/v2.0/token \
 > $SECRETS_DIR/titans-email-token
+
+# upload refreshed token
+azcopy cp "$SECRETS_LOCAL" "$SECRETS_URL/$SECRETS_FILE$SECRETS_SAS"
 
 # send email with new token
 curl -sX POST \
