@@ -91,7 +91,11 @@ def comment(
     }
 
     # send email
-    run(['/code/email/send.sh', email])
+    rez = run(
+        ['/code/email/send.sh', email],
+        capture_output=True,
+        text=True,
+    )
 
     # return status
-    return f'Comments emailed'
+    return rez
