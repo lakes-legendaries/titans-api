@@ -26,7 +26,7 @@ app.add_middleware(
 
 # read in azure connection key
 secrets_dir = os.environ['SECRETS_DIR']
-key = open(join(secrets_dir, 'titans-fileserver'), 'r').read().strip()
+key = open(join(secrets_dir, 'titans-fileserver-sas'), 'r').read().strip()
 
 
 @app.get('/')
