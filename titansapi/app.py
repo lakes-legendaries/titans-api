@@ -91,11 +91,14 @@ def comment(
     }
 
     # send email
-    rez = run(
-        ['/code/email/send.sh', email],
-        capture_output=True,
-        text=True,
-    )
+    try:
+        rez = run(
+            ['/code/email/send.sh', email],
+            capture_output=True,
+            text=True,
+        )
+    except Exception:
+        pass
 
     # return status
-    return rez
+    return rez.stdout, rez.stderr
