@@ -92,11 +92,26 @@ def comment(
     })
 
     # send email
-    run(
-        ['/code/email/send.sh', email],
-        capture_output=True,
-        text=True,
-    )
+    try:
+        run(['/code/email/send.sh', email])
+
+    # upload comments
+    finally:
+
+        # write comments to file
+        fname = datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
+        print(content, file=open(fname, 'w'))
+
+        # upload comments
+        cmd = (
+            f'azcopy cp {fname} '
+            'https://titansfileserver.blob.core.windows.net/comments/'
+            f'{fname}{key}'
+        )
+        run(cmd.split())
+
+        # clean-up
+        remove(fname)
 
     # return status
-    return 'Comments emailed.'
+    return 'Comments emailed and uploaded.'
