@@ -29,7 +29,7 @@ sudo certbot certonly --standalone -n --domains titansapi.eastus.cloudapp.azure.
 
 # create startup command
 REPO=https://raw.githubusercontent.com/lakes-legendaries/titans-api
-FILE=main/webserver/provision.sh
+FILE=main/webserver/startup.sh
 curl $REPO/$FILE > ~/startup.sh
 chmod +x ~/startup.sh
 
