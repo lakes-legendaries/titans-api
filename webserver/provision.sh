@@ -33,11 +33,11 @@ FILE=main/webserver/startup.sh
 curl $REPO/$FILE > ~/startup.sh
 chmod +x ~/startup.sh
 
-# set startup command to run on reboot, and set monthly reboot
-echo "
-@reboot ~/startup.sh
-0 0 1 * * reboot
-" | sudo tee /var/spool/cron/crontabs/root &> /dev/null
+# schedule startup command, and plan monthly reboot
+echo "@reboot $HOME/startup.sh" | sudo tee /var/spool/cron/crontabs/$USER
+echo "0 0 1 * * reboot" | sudo tee /var/spool/cron/crontabs/root
+sudo chmod 0600 /var/spool/cron/crontabs/$USER
+sudo chmod 0600 /var/spool/cron/crontabs/root
 
 # run startup script
 ~/startup.sh
