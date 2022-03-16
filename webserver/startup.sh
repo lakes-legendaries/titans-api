@@ -7,7 +7,7 @@ set -e
 sudo certbot renew
 
 # remove unused docker images and containers
-CONTAINERS="$(sudo docker ps -aq)"
+CONTAINERS="$(sudo docker ps -q)"
 if [ ! -z "$CONTAINERS" ]; then
     sudo docker rm --force "$CONTAINERS"
 fi
