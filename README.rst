@@ -11,7 +11,7 @@ execute:
 
 .. code-block:: bash
 
-   curl https://raw.githubusercontent.com/lakes-legendaries/titans-api/main/vm/provision.sh | bash
+   curl https://raw.githubusercontent.com/lakes-legendaries/titans-api/main/webserver/provision.sh | bash
 
 This script:
 
