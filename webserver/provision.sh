@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# error on failure
+set -e
+
 # setup unix
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl git gnupg lsb-release
@@ -21,7 +24,7 @@ sudo apt-get install -y snapd
 sudo snap install core
 sudo snap refresh core
 sudo apt-get remove -y certbot
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo ln --force -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot certonly --standalone -n --domains titansapi.eastus.cloudapp.azure.com
 
 # create startup command
