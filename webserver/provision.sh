@@ -24,8 +24,11 @@ sudo apt-get install -y snapd
 sudo snap install core
 sudo snap refresh core
 sudo apt-get remove -y certbot
+sudo snap install --classic certbot
 sudo ln --force -s /snap/bin/certbot /usr/bin/certbot
-sudo certbot certonly --standalone -n --domains titansapi.eastus.cloudapp.azure.com
+sudo /usr/bin/certbot certonly \
+    --standalone -n --domains titansapi.eastus.cloudapp.azure.com \
+    --agree-tos --email mike@lakeslegendaries.com
 
 # create startup command
 REPO=https://raw.githubusercontent.com/lakes-legendaries/titans-api
