@@ -60,6 +60,28 @@ def subscribe(email: str):
     return f'Uploaded {email}'
 
 
+@app.get('/unsubscribe/{email}')
+def subscribe(email: str):
+    """Unsubscribe form submission"""
+
+    # create file as subscription email
+    print('', end='', file=open(email, 'w'))
+
+    # upload to azure
+    cmd = (
+        f'azcopy cp {email} '
+        'https://titansfileserver.blob.core.windows.net/unsubscribe/'
+        f'{email}{key}'
+    )
+    run(cmd.split())
+
+    # clean up
+    remove(email)
+
+    # return status
+    return f'Unsubscribed {email}'
+
+
 @app.get('/comments/{comments}')
 def comment(
     comments: str,
