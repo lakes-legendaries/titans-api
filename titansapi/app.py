@@ -9,6 +9,7 @@ from urllib.parse import quote_plus
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from titansemail import SendEmails
 
 from titansapi import __version__
 
@@ -94,28 +95,13 @@ def comment(
     if email:
         content += f'\n\nRespond to: {email}'
 
-    # create email json
-    email = json.dumps({
-        'message': {
-            'subject': 'New Question / Comment',
-            'body': {
-                'contentType': 'Text',
-                'content': content,
-            },
-            'toRecipients': [
-                {
-                    'emailAddress': {
-                        'address': 'mike@lakeslegendaries.com',
-                    },
-                },
-            ],
-        },
-        'saveToSentItems': False,
-    })
-
     # send email
     try:
-        run(['/code/email/send.sh', email])
+        SendEmails(
+            subject='New Question / Comment',
+            body=content,
+            use_ci=True,
+        )
 
     # upload comments
     finally:
