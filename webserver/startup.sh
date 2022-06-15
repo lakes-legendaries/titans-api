@@ -37,7 +37,7 @@ sudo docker run -v ~/secrets:/secrets titans-api \
     /bin/bash -c "azcopy cp '$SECRETS_URL/*$SECRETS_SAS' '/secrets/'"
 
 # prepare welcome email
-EMAIL_DIR="~/email"
+EMAIL_DIR=~/email
 rm -rfd $EMAIL_DIR
 cp -r titans-api/email $EMAIL_DIR
 sed -i "s/email/\/email/g" $EMAIL_DIR/config.yaml
