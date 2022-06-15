@@ -60,7 +60,10 @@ def subscribe(email: str):
 
     # send welcome email
     try:
-        SendEmails(**yaml.safe_load(open('/email/config.yaml', 'r')))
+        SendEmails(
+            contacts=[email],
+            **yaml.safe_load(open('/email/config.yaml', 'r'))
+        )
     except Exception:
         pass
 

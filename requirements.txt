@@ -9,6 +9,6 @@ pydantic==1.9.0
 PyYAML==6.0
 sniffio==1.2.0
 starlette==0.17.1
-titansemail @ git+https://github.com/lakes-legendaries/titans-email.git@279978579191f7c04e1b0ef40cafb10d938f9fef
+titansemail @ git+https://github.com/lakes-legendaries/titans-email.git@8a1af84d11221b2e897178cfc098072f0f235e94
 typing_extensions==4.1.1
 uvicorn==0.17.6
