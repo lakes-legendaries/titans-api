@@ -39,7 +39,7 @@ sudo docker run -v ~/secrets:/secrets titans-api \
 # prepare welcome email
 EMAIL_DIR="~/email"
 rm -rfd $EMAIL_DIR
-cp titans-api/email $EMAIL_DIR
+cp -r titans-api/email $EMAIL_DIR
 sed -i "s/email/\/email/g" $EMAIL_DIR/config.yaml
 
 # run docker container
