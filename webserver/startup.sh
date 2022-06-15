@@ -36,8 +36,14 @@ SECRETS_SAS=$(cat ~/secrets/titans-fileserver-sas)
 sudo docker run -v ~/secrets:/secrets titans-api \
     /bin/bash -c "azcopy cp '$SECRETS_URL/*$SECRETS_SAS' '/secrets/'"
 
+# prepare welcome email
+EMAIL_DIR="~/email"
+rm -rfd $EMAIL_DIR
+cp titans-api/email $EMAIL_DIR
+sed -i "s/email/\/email/g" $EMAIL_DIR/config.yaml
+
 # run docker container
-sudo docker run -dp 443:443 -v ~/secrets:/secrets titans-api
+sudo docker run -dp 443:443 -v ~/secrets:/secrets -v $EMAIL_DIR:/email titans-api
 
 # clean up
 rm -rfd titans-api

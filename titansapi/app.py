@@ -10,6 +10,7 @@ from urllib.parse import quote_plus
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from titansemail import SendEmails
+import yaml
 
 from titansapi import __version__
 
@@ -57,8 +58,14 @@ def subscribe(email: str):
     # clean up
     remove(email)
 
+    # send welcome email
+    try:
+        SendEmails(**yaml.safe_load(open('/email/config.yaml', 'r')))
+    except Exception:
+        pass
+
     # return status
-    return f'Uploaded {email}'
+    return f'Subscribed {email}'
 
 
 @app.get('/unsubscribe/{email}')
